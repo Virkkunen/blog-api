@@ -25,4 +25,13 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser };
+const getUsers = async (req, res) => {
+  try {
+    const users = await userService.getUsers();
+    return res.status(200).json(users);
+  } catch (err) {
+    return res.status(400).json({ message: 'error' });
+  }
+};
+
+module.exports = { createUser, getUsers };

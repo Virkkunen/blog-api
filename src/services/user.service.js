@@ -5,4 +5,13 @@ const addUser = async (displayName, email, password, image) => {
   return user;
 };
 
-module.exports = { addUser };
+const getUsers = async () => {
+  // findAll e tirar password
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+
+  return users;
+};
+
+module.exports = { addUser, getUsers };
