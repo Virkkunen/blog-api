@@ -30,7 +30,7 @@ const getUsers = async (req, res) => {
     const users = await userService.getUsers();
     return res.status(200).json(users);
   } catch (err) {
-    return res.status(400).json({ message: 'No users available' });
+    return res.status(400).json({ message: err.message });
   }
 };
 

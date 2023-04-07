@@ -20,4 +20,12 @@ const validateNewUser = (body) => {
   return bodySchema.validate(body);
 };
 
-module.exports = { validateBody, validateNewUser };
+const validateNewCategory = (body) => {
+  const bodySchema = Joi.object({
+    name: Joi.string().min(3).required(),
+  });
+
+  return bodySchema.validate(body);
+};
+
+module.exports = { validateBody, validateNewUser, validateNewCategory };
