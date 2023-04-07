@@ -7,7 +7,7 @@ const login = async (req, res) => {
   // desestruturar não funciona
   // validate
   if (validateBody(req.body).error) {
-    res.status(400).json({ message: 'Some required fields are missing' });
+    return res.status(400).json({ message: 'Some required fields are missing' });
   }
   // find user
   const user = await getUser(req.body.email);
