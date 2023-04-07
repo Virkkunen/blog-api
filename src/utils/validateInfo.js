@@ -28,4 +28,14 @@ const validateNewCategory = (body) => {
   return bodySchema.validate(body);
 };
 
-module.exports = { validateBody, validateNewUser, validateNewCategory };
+const validateNewPost = (body) => {
+  const bodySchema = Joi.object({
+    title: Joi.string().min(3).required(),
+    content: Joi.string().min(3).required(),
+    categoryIds: Joi.array().required(),
+  });
+
+  return bodySchema.validate(body);
+};
+
+module.exports = { validateBody, validateNewUser, validateNewCategory, validateNewPost };
