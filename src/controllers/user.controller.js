@@ -30,8 +30,19 @@ const getUsers = async (req, res) => {
     const users = await userService.getUsers();
     return res.status(200).json(users);
   } catch (err) {
-    return res.status(400).json({ message: 'error' });
+    return res.status(400).json({ message: 'No users available' });
   }
 };
 
-module.exports = { createUser, getUsers };
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await userService.getUserById(id);
+    if (!user) return res.status(404).json({ message: 'User does not exist' });
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(404).json({ message: 'User does not exist' });
+  }
+};
+
+module.exports = { createUser, getUsers, getUserById };
