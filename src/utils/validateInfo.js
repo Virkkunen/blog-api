@@ -9,4 +9,15 @@ const validateBody = (body) => {
   return bodySchema.validate(body);
 };
 
-module.exports = { validateBody };
+const validateNewUser = (body) => {
+  const bodySchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+    displayName: Joi.string().min(8).required(),
+    image: Joi.string(),
+  });
+
+  return bodySchema.validate(body);
+};
+
+module.exports = { validateBody, validateNewUser };
