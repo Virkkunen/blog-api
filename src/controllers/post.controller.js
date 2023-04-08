@@ -37,6 +37,17 @@ const getPostById = async (req, res) => {
   }
 };
 
+const getPostByIdAllUsers = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await postService.getPostByIdAllUsers(id);
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
+
 const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
@@ -51,4 +62,22 @@ const updatePost = async (req, res) => {
   }
 };
 
-module.exports = { addPost, getPosts, getPostById, updatePost };
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    // espaguete
+    const postAllUsers = await postService.getPostByIdAllUsers(id);
+    if (!postAllUsers) return res.status(404).json({ message: 'Post does not exist' });
+
+    const post = await postService.deletePost(userId, id);
+    if (!post) return res.status(401).json({ message: 'Unauthorized user' });
+
+    return res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
+
+module.exports = { addPost, getPosts, getPostById, updatePost, deletePost, getPostByIdAllUsers };
