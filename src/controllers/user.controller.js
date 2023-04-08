@@ -38,4 +38,15 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getUsers, getUserById };
+const deleteUser = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const result = await userService.deleteUser(userId);
+    if (!result) return res.status(404).json({ message: 'User does not exist' });
+    return res.status(204).end();
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+};
+
+module.exports = { createUser, getUsers, getUserById, deleteUser };
