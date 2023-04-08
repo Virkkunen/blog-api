@@ -7,6 +7,7 @@ const { auth, validateUpdatePost, validateNewPost } = require('../middleware');
 
 router.use(auth);
 router.post('/', validateNewPost, postController.addPost);
+router.get('/search', postController.findPost);
 router.get('/', postController.getPosts);
 router.get('/:id', postController.getPostById);
 router.put('/:id', validateUpdatePost, postController.updatePost);

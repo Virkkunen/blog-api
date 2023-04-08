@@ -80,4 +80,24 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { addPost, getPosts, getPostById, updatePost, deletePost, getPostByIdAllUsers };
+const findPost = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const posts = await postService.findPost(q);
+    if (!posts) return res.status(404).json({ message: 'Post does not exist' });
+    return res.status(200).json(posts);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
+
+module.exports = { 
+  addPost, 
+  getPosts,
+  getPostById,
+  updatePost,
+  deletePost,
+  getPostByIdAllUsers,
+  findPost, 
+};
