@@ -1,14 +1,9 @@
 const { postService } = require('../services');
-const { validateNewPost, validateUpdatePost } = require('../utils/validateInfo');
 
 const addPost = async (req, res) => {
   try {
     const { title, content, categoryIds } = req.body;
     const userId = req.user.id;
-
-    if (validateNewPost(req.body).error) {
-      return res.status(400).json({ message: 'Some required fields are missing' });
-    }
     const post = await postService.addPost(title, content, userId, categoryIds);
     return res.status(201).json(post);
   } catch (err) {
@@ -47,9 +42,6 @@ const updatePost = async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
     const { title, content } = req.body;
-    if (validateUpdatePost(req.body).error) {
-      return res.status(400).json({ message: 'Some required fields are missing' });
-    }
     const post = await postService.updatePost(userId, id, title, content);
     if (!post) return res.status(401).json({ message: 'Unauthorized user' });
     return res.status(200).json(post);
