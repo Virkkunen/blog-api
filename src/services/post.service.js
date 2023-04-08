@@ -46,7 +46,6 @@ const getPosts = async (userId) => {
 };
 
 const getPostById = async (userId, id) => {
-  console.log(userId);
   const post = await BlogPost.findOne({
     where: { userId, id },
     include: [
@@ -65,4 +64,25 @@ const getPostById = async (userId, id) => {
   return post;
 };
 
-module.exports = { addPost, getPosts, getPostById };
+const updatePost = async (userId, id, title, content) => {
+  await BlogPost.update({ title, content, updated: new Date() }, { where: { userId, id } });
+  const post = await BlogPost.findOne({
+    where: { userId, id },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+
+  return post;
+};
+
+module.exports = { addPost, getPosts, getPostById, updatePost };
